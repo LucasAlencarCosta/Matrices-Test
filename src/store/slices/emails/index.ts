@@ -1,0 +1,55 @@
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { Email, EmailsState, EmailStatus } from "./types";
+import { mockEmails } from "../mocks/emails";
+
+const initialState: EmailsState = {
+  emails: mockEmails,
+};
+
+const emailsSlice = createSlice({
+  name: "emails",
+  initialState,
+  reducers: {
+    addEmail: (state, action: PayloadAction<Email>) => {
+      state.emails.push(action.payload);
+    },
+    updateEmailStatus: (
+      state,
+      action: PayloadAction<{ id: string; status: EmailStatus }>
+    ) => {
+      const email = state.emails.find(
+        (email) => email.id === action.payload.id
+      );
+      if (email) {
+        email.status = action.payload.status;
+      }
+    },
+    markAsRead: (state, action: PayloadAction<string>) => {
+      const email = state.emails.find((email) => email.id === action.payload);
+      if (email) {
+        email.isUnread = false;
+      }
+    },
+    markAsUnread: (state, action: PayloadAction<string>) => {
+      const email = state.emails.find((email) => email.id === action.payload);
+      if (email) {
+        email.isUnread = true;
+      }
+    },
+    deleteEmail: (state, action: PayloadAction<string>) => {
+      state.emails = state.emails.filter(
+        (email) => email.id !== action.payload
+      );
+    },
+  },
+});
+
+export const {
+  addEmail,
+  updateEmailStatus,
+  markAsRead,
+  markAsUnread,
+  deleteEmail,
+} = emailsSlice.actions;
+export default emailsSlice.reducer;
