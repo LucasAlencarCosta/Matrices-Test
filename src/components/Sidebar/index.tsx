@@ -2,17 +2,20 @@ import React from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { setTabSelected } from "../../store/slices/menu";
 import { tabs } from "../../layouts/MainLayout/constants";
+import { EmailStatus } from "../../store/slices/emails/types";
 
 const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
   const tabSelected = useAppSelector((state) => state.menu.tabSelected);
   const emails = useAppSelector((state) => state.emails.emails);
-  const isInboxOrSpam = tabSelected === "inbox" || tabSelected === "spam";
 
   return (
     <div className="w-[256px] shrink-0 px-3 text-sm">
       <div className="mb-4 h-[56px] w-[138px] rounded-2xl bg-[rgb(194,231,255)] opacity-50" />
       {tabs.map((tab) => {
+        const isInboxOrSpam =
+          tab.value === EmailStatus.Inbox || tab.value === EmailStatus.Spam;
+
         return (
           <div
             key={tab.value}

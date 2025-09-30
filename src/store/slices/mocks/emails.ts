@@ -11,7 +11,7 @@ export const mockEmails: Email[] = [
     sender: getUserById("u1"),
     destinataries: [getUserById("u2")],
     body: "Thank you for joining our platform. We're excited to have you on board and look forward to helping you achieve your goals.",
-    sendDate: new Date("2024-01-15T09:30:00"),
+    sendDate: new Date("2025-09-30T09:30:00"),
     status: "Inbox",
     isUnread: true,
   },

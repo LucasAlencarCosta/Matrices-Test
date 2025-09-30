@@ -1,9 +1,10 @@
 import React from "react";
 import type { HomePageProps } from "./types";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { formatEmailDate } from "../../utils/dateUtils";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const emails = useAppSelector((state) => state.emails.emails);
 
   return (
@@ -26,12 +27,23 @@ const HomePage: React.FC<HomePageProps> = () => {
                 className="h-8 w-8 rounded-full"
               />
             </button>
-            <span className="w-[200px] shrink-0 truncate">
-              {email.destinataries.map((user) => user.name).join(", ")}
-            </span>
-            {email.destinataries.length > 1 && (
-              <span>{`(${email.destinataries.length - 1})`}</span>
-            )}
+            <div className="w-[200px] shrink-0 truncate">
+              <span>
+                {email.destinataries.map((user) => user.name).join(", ")}
+              </span>
+              {email.destinataries.length > 1 && (
+                <span className="ml-1 text-xs text-gray-500">{`(${
+                  email.destinataries.length - 1
+                })`}</span>
+              )}
+            </div>
+            <div className="w-0 flex-1 grow truncate text-sm">
+              <span>{email.subject}</span>
+              <span className="text-gray-500"> - {email.body}</span>
+            </div>
+            <div className="shrink-0 text-xs text-gray-500">
+              {formatEmailDate(email.sendDate)}
+            </div>
           </div>
         ))}
       </div>
