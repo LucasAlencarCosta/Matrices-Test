@@ -1,12 +1,14 @@
+import { EmailStatus } from "../../store/slices/emails/types";
+
 export const tabs = [
   {
     label: "Inbox",
-    value: "inbox",
+    value: EmailStatus.Inbox,
     image: "/icon-inbox.webp",
   },
   {
     label: "Starred",
-    value: "starred",
+    value: EmailStatus.Starred,
     image: "/icon-star.webp",
   },
   {
@@ -16,12 +18,12 @@ export const tabs = [
   },
   {
     label: "Spam",
-    value: "spam",
+    value: EmailStatus.Spam,
     image: "/icon-spam.webp",
   },
   {
     label: "Trash",
-    value: "trash",
+    value: EmailStatus.Trash,
     image: "/icon-trash.webp",
   },
 ];

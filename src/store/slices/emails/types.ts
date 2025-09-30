@@ -1,4 +1,11 @@
-export type EmailStatus = "Inbox" | "Spam" | "Trash" | "Starred";
+export const EmailStatus = {
+  Inbox: "Inbox",
+  Spam: "Spam",
+  Trash: "Trash",
+  Starred: "Starred",
+} as const;
+
+export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus];
 
 interface User {
   id: string;

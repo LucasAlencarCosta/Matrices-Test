@@ -7,20 +7,12 @@ const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
   const tabSelected = useAppSelector((state) => state.menu.tabSelected);
   const emails = useAppSelector((state) => state.emails.emails);
-
-  const getCountForTab = (tabValue: string) => {
-    if (tabValue === "Inbox")
-      return emails.filter((email) => email.status === "Inbox").length;
-    if (tabValue === "Spam")
-      return emails.filter((email) => email.status === "Spam").length;
-    return null;
-  };
+  const isInboxOrSpam = tabSelected === "inbox" || tabSelected === "spam";
 
   return (
     <div className="w-[256px] shrink-0 px-3 text-sm">
       <div className="mb-4 h-[56px] w-[138px] rounded-2xl bg-[rgb(194,231,255)] opacity-50" />
       {tabs.map((tab) => {
-        const count = getCountForTab(tab.value);
         return (
           <div
             key={tab.value}
@@ -43,8 +35,10 @@ const Sidebar: React.FC = () => {
               src={tab.image}
             ></img>
             <span className="flex-1">{tab.label}</span>
-            {count !== null && (
-              <span className="text-xs font-normal">{count}</span>
+            {isInboxOrSpam && (
+              <span className="text-xs font-normal">
+                {emails.filter((email) => email.status === tab.value).length}
+              </span>
             )}
           </div>
         );
