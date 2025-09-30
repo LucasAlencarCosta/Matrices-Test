@@ -1,9 +1,9 @@
 import React from "react";
 import type { HomePageProps } from "./types";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "../../hooks/redux";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const emails = useAppSelector((state) => state.emails.emails);
 
   return (
