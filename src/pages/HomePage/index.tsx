@@ -1,11 +1,10 @@
 import React from "react";
 import type { HomePageProps } from "./types";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { formatEmailDate } from "../../utils/dateUtils";
+import { useHomePage } from "./useHomePage";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const dispatch = useAppDispatch();
-  const emails = useAppSelector((state) => state.emails.emails);
+  const { emails, starEmail } = useHomePage();
 
   return (
     <>
@@ -13,18 +12,29 @@ const HomePage: React.FC<HomePageProps> = () => {
       <div>
         {emails.map((email) => (
           <div
-            className="relative flex h-[40px] cursor-pointer items-center gap-3 border-b border-gray-200 px-4 text-sm hover:z-10 hover:shadow-md bg-gray-50"
+            className={`relative flex h-[40px] cursor-pointer items-center gap-3 border-b border-gray-200 px-4 text-sm hover:z-10 hover:shadow-md ${
+              !email.isUnread ? "bg-gray-50" : ""
+            }`}
             key={email.id}
           >
-            <button className="rounded p-1 hover:bg-gray-100">
+            <button
+              className="rounded p-1 hover:bg-gray-100"
+              onClick={() => starEmail(email.id)}
+            >
               <img
+                alt="Star"
+                loading="lazy"
+                className="h-5 w-5"
+                width="40"
+                height="40"
+                decoding="async"
+                data-nimg="1"
                 src={
                   email.status === "Starred"
                     ? "/icon-star-filled-yellow.webp"
                     : "/icon-star.webp"
                 }
-                alt={"Star"}
-                className="h-8 w-8 rounded-full"
+                style={{ color: "transparent" }}
               />
             </button>
             <div className="w-[200px] shrink-0 truncate">
@@ -52,4 +62,3 @@ const HomePage: React.FC<HomePageProps> = () => {
 };
 
 export default HomePage;
-export type { HomePageProps } from "./types";

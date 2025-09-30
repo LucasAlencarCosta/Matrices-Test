@@ -42,6 +42,13 @@ const emailsSlice = createSlice({
         (email) => email.id !== action.payload
       );
     },
+    toggleStar: (state, action: PayloadAction<string>) => {
+      const email = state.emails.find((email) => email.id === action.payload);
+      if (email) {
+        email.status =
+          email.status === "Starred" ? "Inbox" : ("Starred" as EmailStatus);
+      }
+    },
   },
 });
 

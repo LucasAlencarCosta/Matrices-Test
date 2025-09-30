@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { MenuState } from "./types";
+import { EmailStatus } from "../emails/types";
 
 const initialState: MenuState = {
-  tabSelected: "inbox",
+  tabSelected: EmailStatus.Inbox,
 };
 
 const menuSlice = createSlice({
