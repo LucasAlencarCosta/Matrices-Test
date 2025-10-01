@@ -1,20 +1,14 @@
 import React from "react";
 import { formatDetailedEmailDate } from "../../utils/dateUtils";
 import { getStarIcon } from "../../utils/emailUtils";
-import type { EmailBodyProps } from "./types";
+import { useEmailBody } from "./useEmailBody";
 
-const EmailBody: React.FC<EmailBodyProps> = ({
-  email,
-  isOpen,
-  onToggle,
-  onStar,
-}) => {
-  const getInitials = (name: string) => {
-    const nameParts = name.split(" ");
-    const firstInitial = nameParts[0]?.[0] || "";
-    const lastInitial = nameParts[nameParts.length - 1]?.[0] || "";
-    return `${firstInitial}${lastInitial}`;
-  };
+const EmailBody: React.FC = () => {
+  const { isOpen, onToggle, getInitials, email } = useEmailBody();
+
+  if (!email) {
+    return null;
+  }
 
   return (
     <div className="flex items-start gap-3 cursor-pointer" onClick={onToggle}>
@@ -42,7 +36,7 @@ const EmailBody: React.FC<EmailBodyProps> = ({
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <span className="truncate text-xs whitespace-nowrap text-gray-500">
-              {formatDetailedEmailDate(email.sendDate)}
+              {formatDetailedEmailDate(new Date(email.sendDate))}
             </span>
             <button className="-m-1 cursor-pointer rounded p-1 hover:bg-gray-100">
               <img
@@ -53,28 +47,15 @@ const EmailBody: React.FC<EmailBodyProps> = ({
                 decoding="async"
                 data-nimg="1"
                 className="h-5 w-5"
-                onClick={() => onStar(email.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // onStar(email.id); // You'll need to implement this in the hook
+                }}
                 src={getStarIcon(email.status)}
                 style={{ color: "transparent" }}
               />
             </button>
           </div>
-        </div>
-        <div
-          className={`${
-            !isOpen
-              ? "truncate text-[13px] text-gray-600"
-              : "mt-1 text-[13px] whitespace-pre-wrap"
-          } `}
-        >
-          {email.body}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default EmailBody;
         </div>
         <div
           className={`${

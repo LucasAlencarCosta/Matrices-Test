@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import menuReducer from "./slices/menu";
+import navigationReducer from "./slices/navigation";
 import emailsReducer from "./slices/emails";
 
 export const store = configureStore({
   reducer: {
-    menu: menuReducer,
+    navigation: navigationReducer,
     emails: emailsReducer,
   },
 });

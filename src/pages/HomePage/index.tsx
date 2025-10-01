@@ -3,36 +3,18 @@ import type { HomePageProps } from "./types";
 import { formatEmailDate } from "../../utils/dateUtils";
 import { getStarIcon } from "../../utils/emailUtils";
 import { useHomePage } from "./useHomePage";
-import EmailDetails from "../../components/EmailDetails";
+import EmailDetailsContent from "../../components/EmailDetailsContent";
 import { EmptyState } from "../../components/EmptyState";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const {
-    emails,
-    onClickEmail,
-    starEmail,
-    onDeleteEmail,
-    onMoveToSpam,
-    onMoveToInbox,
-    onStarEmail,
-    selectedEmail,
-  } = useHomePage();
+  const { emails, selectedEmail, onStarEmail, onClickEmail } = useHomePage();
 
   if (emails.length === 0) {
     return <EmptyState />;
   }
 
   if (selectedEmail) {
-    return (
-      <EmailDetails
-        email={selectedEmail}
-        onBack={() => onClickEmail(null)}
-        onDelete={() => onDeleteEmail(selectedEmail.id)}
-        onMoveToSpam={() => onMoveToSpam(selectedEmail.id)}
-        onMoveToInbox={() => onMoveToInbox(selectedEmail.id)}
-        onStar={onStarEmail}
-      />
-    );
+    return <EmailDetailsContent />;
   }
 
   return (
@@ -51,7 +33,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               className="rounded p-1 hover:bg-gray-100"
               onClick={(e) => {
                 e.stopPropagation();
-                starEmail(email.id);
+                onStarEmail(email.id);
               }}
             >
               <img

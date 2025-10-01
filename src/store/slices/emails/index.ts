@@ -72,5 +72,8 @@ export const {
   markAsRead,
   markAsUnread,
   deleteEmail,
+  toggleStar,
+  toogleDelete,
+  toggleSpam,
 } = emailsSlice.actions;
 export default emailsSlice.reducer;

@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import type { EmailDetailsProps } from "./types";
 import EmailBody from "../EmailBody";
+import { useEmailDetailsContent } from "./useEmailDetailsContent";
 
-const EmailDetails: React.FC<EmailDetailsProps> = ({
-  email,
-  onBack,
-  onDelete,
-  onMoveToSpam,
-  //   onMoveToInbox,
-  onStar,
-}) => {
-  const [isOpen, setIsOpen] = useState(true);
+const EmailDetailsContent: React.FC = () => {
+  const { email, onBack, onDelete, onMoveToSpam } = useEmailDetailsContent();
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  if (!email) {
+    return null;
+  }
 
   return (
     <div className="mr-[56px] mb-4 flex min-w-[500px] grow flex-col rounded-2xl bg-white">
@@ -38,23 +30,25 @@ const EmailDetails: React.FC<EmailDetailsProps> = ({
               ></path>
             </svg>
           </button>
-          <button
-            title="Report spam"
-            className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
-            onClick={() => onMoveToSpam(email.id)}
-          >
-            <img
-              alt={"Spam"}
-              loading="lazy"
-              width="40"
-              height="40"
-              decoding="async"
-              data-nimg="1"
-              className="h-5 w-5"
-              style={{ color: "transparent" }}
-              src={"/icon-spam.webp"}
-            />
-          </button>
+          {
+            <button
+              title="Report spam"
+              className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+              onClick={() => onMoveToSpam(email.id)}
+            >
+              <img
+                alt={"Spam"}
+                loading="lazy"
+                width="40"
+                height="40"
+                decoding="async"
+                data-nimg="1"
+                className="h-5 w-5"
+                style={{ color: "transparent" }}
+                src={"/icon-spam.webp"}
+              />
+            </button>
+          }
           <button
             title="Delete"
             className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
@@ -79,16 +73,11 @@ const EmailDetails: React.FC<EmailDetailsProps> = ({
       </div>
       <div className="flex-1 overflow-y-auto">
         <div className="px-4 py-5">
-          <EmailBody
-            email={email}
-            isOpen={isOpen}
-            onToggle={toggleDropdown}
-            onStar={onStar}
-          />
+          <EmailBody />
         </div>
       </div>
     </div>
   );
 };
 
-export default EmailDetails;
+export default EmailDetailsContent;

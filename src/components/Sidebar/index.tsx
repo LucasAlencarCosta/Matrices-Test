@@ -1,13 +1,13 @@
 import React from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
-import { setTabSelected } from "../../store/slices/menu";
+import { setTabSelected } from "../../store/slices/navigation";
 import { tabs } from "../../layouts/MainLayout/constants";
 import { EmailStatus } from "../../store/slices/emails/types";
 import { getEmailsForSection } from "../../utils/emailUtils";
 
 const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
-  const tabSelected = useAppSelector((state) => state.menu.tabSelected);
+  const tabSelected = useAppSelector((state) => state.navigation.tabSelected);
   const emails = useAppSelector((state) => state.emails.emails);
 
   return (

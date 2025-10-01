@@ -1,59 +1,32 @@
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { getEmailsForSection } from "../../utils/emailUtils";
+import { markAsRead, toggleStar } from "../../store/slices/emails";
 import type { Email } from "../../store/slices/emails/types";
+import { setSelectedEmail } from "../../store/slices/navigation";
+import { getEmailsForSection } from "../../utils/emailUtils";
 
 export const useHomePage = () => {
   const dispatch = useAppDispatch();
-  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 
-  const onClickEmail = (email: Email | null) => {
-    dispatch({ type: "emails/markAsRead", payload: email?.id ?? null });
-    setSelectedEmail(email);
+  const { emails, navigation } = useAppSelector((state) => state);
+
+  const onClickEmail = (email: Email) => {
+    dispatch(markAsRead(email.id));
+    dispatch(setSelectedEmail(email));
   };
 
-  const onDeleteEmail = (id: string) => {
-    dispatch({ type: "emails/deleteEmail", payload: id });
-    setSelectedEmail(null);
+  const onStarEmail = (emailId: string) => {
+    dispatch(toggleStar(emailId));
   };
 
-  const onMoveToSpam = (id: string) => {
-    dispatch({
-      type: "emails/updateEmailStatus",
-      payload: { id, status: "Spam" },
-    });
-    setSelectedEmail(null);
-  };
-
-  const onMoveToInbox = (id: string) => {
-    dispatch({
-      type: "emails/updateEmailStatus",
-      payload: { id, status: "Inbox" },
-    });
-    setSelectedEmail(null);
-  };
-
-  const onStarEmail = (id: string) => {
-    dispatch({ type: "emails/toggleStar", payload: id });
-  };
-
-  const { emails, menu } = useAppSelector((state) => state);
-
-  const filteredEmails = getEmailsForSection(emails.emails, menu.tabSelected);
-
-  const starEmail = (id: string) => {
-    dispatch({ type: "emails/toggleStar", payload: id });
-  };
+  const filteredEmails = getEmailsForSection(
+    emails.emails,
+    navigation.tabSelected
+  );
 
   return {
     onClickEmail,
-    dispatch,
-    starEmail,
-    onDeleteEmail,
-    onMoveToSpam,
-    onMoveToInbox,
     onStarEmail,
-    selectedEmail,
+    selectedEmail: navigation.selectedEmail,
     emails: filteredEmails,
   };
 };
