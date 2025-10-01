@@ -1,14 +1,11 @@
 import React from "react";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux";
-import { setTabSelected } from "../../store/slices/navigation";
 import { tabs } from "../../layouts/MainLayout/constants";
 import { EmailStatus } from "../../store/slices/emails/types";
 import { getEmailsForSection } from "../../utils/emailUtils";
+import { useSidebar } from "./useSidebar";
 
 const Sidebar: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const tabSelected = useAppSelector((state) => state.navigation.tabSelected);
-  const emails = useAppSelector((state) => state.emails.emails);
+  const { tabSelected, emails, onTabSelect } = useSidebar();
 
   return (
     <div className="w-[256px] shrink-0 px-3 text-sm">
@@ -20,7 +17,7 @@ const Sidebar: React.FC = () => {
         return (
           <div
             key={tab.value}
-            onClick={() => dispatch(setTabSelected(tab.value))}
+            onClick={() => onTabSelect(tab.value)}
             className={`flex cursor-pointer items-center gap-4 rounded-full py-1.5 pr-3 pl-4 font-semibold text-[rgb(32,33,36)] transition-colors ${
               tabSelected === tab.value
                 ? "bg-[rgb(211,227,253)]"
