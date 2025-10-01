@@ -12,9 +12,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <div className="flex grow">
           <Sidebar />
           {/* Main Content */}
-          <div className="mr-[56px] w-full mb-4 flex min-w-[500px] grow flex-col rounded-2xl bg-white">
-            {children}
-          </div>
+          {children}
         </div>
       </div>
     </div>

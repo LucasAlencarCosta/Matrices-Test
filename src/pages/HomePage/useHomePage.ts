@@ -1,32 +1,59 @@
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { getEmailsForSection } from "../../utils/emailUtils";
 import type { Email } from "../../store/slices/emails/types";
 
 export const useHomePage = () => {
   const dispatch = useAppDispatch();
+  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
+
+  const onClickEmail = (email: Email | null) => {
+    dispatch({ type: "emails/markAsRead", payload: email?.id ?? null });
+    setSelectedEmail(email);
+  };
+
+  const onDeleteEmail = (id: string) => {
+    dispatch({ type: "emails/deleteEmail", payload: id });
+    setSelectedEmail(null);
+  };
+
+  const onMoveToSpam = (id: string) => {
+    dispatch({
+      type: "emails/updateEmailStatus",
+      payload: { id, status: "Spam" },
+    });
+    setSelectedEmail(null);
+  };
+
+  const onMoveToInbox = (id: string) => {
+    dispatch({
+      type: "emails/updateEmailStatus",
+      payload: { id, status: "Inbox" },
+    });
+    setSelectedEmail(null);
+  };
+
+  const onStarEmail = (id: string) => {
+    dispatch({ type: "emails/toggleStar", payload: id });
+  };
+
   const { emails, menu } = useAppSelector((state) => state);
 
-  const filteredEmails = (): Email[] => {
-    if (menu.tabSelected === "all-mail") {
-      return emails.emails;
-    }
-    if (menu.tabSelected === "Inbox") {
-      return emails.emails.filter(
-        (email) => email.status === "Inbox" || email.status === "Starred"
-      );
-    }
-    return emails.emails.filter(
-      (email: Email) =>
-        email.status === menu.tabSelected || menu.tabSelected === "all-mail"
-    );
-  };
+  const filteredEmails = getEmailsForSection(emails.emails, menu.tabSelected);
 
   const starEmail = (id: string) => {
     dispatch({ type: "emails/toggleStar", payload: id });
   };
 
   return {
+    onClickEmail,
     dispatch,
     starEmail,
-    emails: filteredEmails(),
+    onDeleteEmail,
+    onMoveToSpam,
+    onMoveToInbox,
+    onStarEmail,
+    selectedEmail,
+    emails: filteredEmails,
   };
 };

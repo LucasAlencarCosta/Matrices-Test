@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { setTabSelected } from "../../store/slices/menu";
 import { tabs } from "../../layouts/MainLayout/constants";
 import { EmailStatus } from "../../store/slices/emails/types";
+import { getEmailsForSection } from "../../utils/emailUtils";
 
 const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const Sidebar: React.FC = () => {
             }`}
           >
             <img
-              alt="Inbox"
+              alt={tab.label}
               loading="lazy"
               width="40"
               height="40"
@@ -36,11 +37,11 @@ const Sidebar: React.FC = () => {
               className="h-5 w-5"
               style={{ color: "transparent" }}
               src={tab.image}
-            ></img>
+            />
             <span className="flex-1">{tab.label}</span>
             {isInboxOrSpam && (
               <span className="text-xs font-normal">
-                {emails.filter((email) => email.status === tab.value).length}
+                {getEmailsForSection(emails, tab.value).length}
               </span>
             )}
           </div>

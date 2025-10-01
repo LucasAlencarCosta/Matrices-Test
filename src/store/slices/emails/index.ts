@@ -49,6 +49,20 @@ const emailsSlice = createSlice({
           email.status === "Starred" ? "Inbox" : ("Starred" as EmailStatus);
       }
     },
+    toogleDelete: (state, action: PayloadAction<string>) => {
+      const email = state.emails.find((email) => email.id === action.payload);
+      if (email) {
+        email.status =
+          email.status === "Trash" ? "Inbox" : ("Trash" as EmailStatus);
+      }
+    },
+    toggleSpam: (state, action: PayloadAction<string>) => {
+      const email = state.emails.find((email) => email.id === action.payload);
+      if (email) {
+        email.status =
+          email.status === "Spam" ? "Inbox" : ("Spam" as EmailStatus);
+      }
+    },
   },
 });
 

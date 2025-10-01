@@ -2,12 +2,35 @@ import React from "react";
 import type { HomePageProps } from "./types";
 import { formatEmailDate } from "../../utils/dateUtils";
 import { useHomePage } from "./useHomePage";
+import EmailDetails from "../../components/EmailDetails";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const { emails, starEmail } = useHomePage();
+  const {
+    emails,
+    onClickEmail,
+    starEmail,
+    onDeleteEmail,
+    onMoveToSpam,
+    onMoveToInbox,
+    onStarEmail,
+    selectedEmail,
+  } = useHomePage();
+
+  if (selectedEmail) {
+    return (
+      <EmailDetails
+        email={selectedEmail}
+        onBack={() => onClickEmail(null)}
+        onDelete={() => onDeleteEmail(selectedEmail.id)}
+        onMoveToSpam={() => onMoveToSpam(selectedEmail.id)}
+        onMoveToInbox={() => onMoveToInbox(selectedEmail.id)}
+        onStar={onStarEmail}
+      />
+    );
+  }
 
   return (
-    <>
+    <div className="mr-[56px] w-full mb-4 flex min-w-[500px] grow flex-col rounded-2xl bg-white">
       <div className="flex h-[48px] items-center px-4" />
       <div>
         {emails.map((email) => (
@@ -16,10 +39,14 @@ const HomePage: React.FC<HomePageProps> = () => {
               !email.isUnread ? "bg-gray-50" : ""
             }`}
             key={email.id}
+            onClick={() => onClickEmail(email)}
           >
             <button
               className="rounded p-1 hover:bg-gray-100"
-              onClick={() => starEmail(email.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                starEmail(email.id);
+              }}
             >
               <img
                 alt="Star"
@@ -57,7 +84,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
