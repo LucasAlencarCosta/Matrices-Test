@@ -1,17 +1,16 @@
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { markAsRead, toggleStar } from "../../store/slices/emails";
-import type { Email } from "../../store/slices/emails/types";
 import { setSelectedEmail } from "../../store/slices/navigation";
-import { getEmailsForSection } from "../../utils/emailUtils";
+import { getEmailsForSection, findEmailById } from "../../utils/emailUtils";
 
 export const useHomePage = () => {
   const dispatch = useAppDispatch();
 
   const { emails, navigation } = useAppSelector((state) => state);
 
-  const onClickEmail = (email: Email) => {
-    dispatch(markAsRead(email.id));
-    dispatch(setSelectedEmail(email));
+  const onClickEmail = (emailId: string) => {
+    dispatch(markAsRead(emailId));
+    dispatch(setSelectedEmail(emailId));
   };
 
   const onStarEmail = (emailId: string) => {
@@ -23,10 +22,15 @@ export const useHomePage = () => {
     navigation.tabSelected
   );
 
+  const selectedEmail = findEmailById(
+    emails.emails,
+    navigation.selectedEmailId
+  );
+
   return {
     onClickEmail,
     onStarEmail,
-    selectedEmail: navigation.selectedEmail,
+    selectedEmail,
     emails: filteredEmails,
   };
 };

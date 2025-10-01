@@ -27,7 +27,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               !email.isUnread ? "bg-gray-50" : ""
             }`}
             key={email.id}
-            onClick={() => onClickEmail(email)}
+            onClick={() => onClickEmail(email.id)}
           >
             <button
               className="rounded p-1 hover:bg-gray-100"

@@ -22,3 +22,11 @@ export const getStarIcon = (emailStatus: string): string => {
     ? "/icon-star-filled-yellow.webp"
     : "/icon-star.webp";
 };
+
+export const findEmailById = (
+  emails: Email[],
+  emailId: string | null
+): Email | undefined => {
+  if (!emailId) return undefined;
+  return emails.find((email) => email.id === emailId);
+};

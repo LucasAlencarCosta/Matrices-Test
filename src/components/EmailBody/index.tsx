@@ -4,7 +4,7 @@ import { getStarIcon } from "../../utils/emailUtils";
 import { useEmailBody } from "./useEmailBody";
 
 const EmailBody: React.FC = () => {
-  const { isOpen, onToggle, getInitials, email } = useEmailBody();
+  const { isOpen, onToggle, getInitials, email, onStar } = useEmailBody();
 
   if (!email) {
     return null;
@@ -49,7 +49,7 @@ const EmailBody: React.FC = () => {
                 className="h-5 w-5"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // onStar(email.id); // You'll need to implement this in the hook
+                  onStar(email.id);
                 }}
                 src={getStarIcon(email.status)}
                 style={{ color: "transparent" }}

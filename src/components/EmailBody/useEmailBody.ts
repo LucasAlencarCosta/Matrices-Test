@@ -1,11 +1,19 @@
 import { useState } from "react";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { toggleStar } from "../../store/slices/emails";
 
 export const useEmailBody = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const selectedEmail = useAppSelector(
-    (state) => state.navigation.selectedEmail
+  const selectedEmail = useAppSelector((state) =>
+    state.emails.emails.find(
+      (email) => email.id === state.navigation.selectedEmailId
+    )
   );
+  const dispatch = useAppDispatch();
+
+  const onStar = (emailId: string) => {
+    dispatch(toggleStar(emailId));
+  };
 
   const onToggle = () => {
     setIsOpen(!isOpen);
@@ -22,6 +30,7 @@ export const useEmailBody = () => {
     isOpen,
     onToggle,
     getInitials,
+    onStar,
     email: selectedEmail,
   };
 };

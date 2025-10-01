@@ -4,7 +4,7 @@ import { resetSelectedEmail } from "../../store/slices/navigation";
 
 export const useEmailDetailsContent = () => {
   const dispatch = useAppDispatch();
-  const { navigation } = useAppSelector((state) => state);
+  const { emails, navigation } = useAppSelector((state) => state);
 
   const onBack = () => {
     dispatch(resetSelectedEmail());
@@ -20,7 +20,9 @@ export const useEmailDetailsContent = () => {
     dispatch(toggleSpam(emailId));
   };
 
-  const email = navigation.selectedEmail;
+  const email = emails.emails.find(
+    (email) => email.id === navigation.selectedEmailId
+  );
 
   return { email, onBack, onDelete, onMoveToSpam };
 };
