@@ -8,7 +8,7 @@ const EmailDetails: React.FC<EmailDetailsProps> = ({
   onBack,
   onDelete,
   onMoveToSpam,
-  onMoveToInbox,
+  //   onMoveToInbox,
   onStar,
 }) => {
   const [isOpen, setIsOpen] = useState(true);

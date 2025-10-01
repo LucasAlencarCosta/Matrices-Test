@@ -4,6 +4,7 @@ import { formatEmailDate } from "../../utils/dateUtils";
 import { getStarIcon } from "../../utils/emailUtils";
 import { useHomePage } from "./useHomePage";
 import EmailDetails from "../../components/EmailDetails";
+import { EmptyState } from "../../components/EmptyState";
 
 const HomePage: React.FC<HomePageProps> = () => {
   const {
@@ -16,6 +17,10 @@ const HomePage: React.FC<HomePageProps> = () => {
     onStarEmail,
     selectedEmail,
   } = useHomePage();
+
+  if (emails.length === 0) {
+    return <EmptyState />;
+  }
 
   if (selectedEmail) {
     return (
