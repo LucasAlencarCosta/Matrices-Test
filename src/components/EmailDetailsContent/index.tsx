@@ -1,8 +1,10 @@
+import { EmailStatus } from "../../store/slices/emails/types";
 import EmailBody from "../EmailBody";
 import { useEmailDetailsContent } from "./useEmailDetailsContent";
 
 const EmailDetailsContent: React.FC = () => {
-  const { email, onBack, onDelete, onMoveToSpam } = useEmailDetailsContent();
+  const { email, actualTab, onBack, onDelete, onMoveToSpam, onMoveToInbox } =
+    useEmailDetailsContent();
 
   if (!email) {
     return null;
@@ -30,42 +32,51 @@ const EmailDetailsContent: React.FC = () => {
               ></path>
             </svg>
           </button>
-          {
+          {actualTab === EmailStatus.Spam || actualTab === EmailStatus.Trash ? (
             <button
-              title="Report spam"
-              className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
-              onClick={() => onMoveToSpam(email.id)}
+              onClick={onMoveToInbox(email.id)}
+              className="cursor-pointer rounded px-3 py-1.5 text-sm hover:bg-gray-100"
             >
-              <img
-                alt={"Spam"}
-                loading="lazy"
-                width="40"
-                height="40"
-                decoding="async"
-                data-nimg="1"
-                className="h-5 w-5"
-                style={{ color: "transparent" }}
-                src={"/icon-spam.webp"}
-              />
+              {actualTab === EmailStatus.Spam ? "Not spam" : "Move to inbox"}
             </button>
-          }
-          <button
-            title="Delete"
-            className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
-            onClick={() => onDelete(email.id)}
-          >
-            <img
-              alt={"Thrash"}
-              loading="lazy"
-              width="40"
-              height="40"
-              decoding="async"
-              data-nimg="1"
-              className="h-5 w-5"
-              style={{ color: "transparent" }}
-              src={"/icon-trash.webp"}
-            />
-          </button>
+          ) : (
+            <>
+              <button
+                title="Report spam"
+                className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+                onClick={() => onMoveToSpam(email.id)}
+              >
+                <img
+                  alt={"Spam"}
+                  loading="lazy"
+                  width="40"
+                  height="40"
+                  decoding="async"
+                  data-nimg="1"
+                  className="h-5 w-5"
+                  style={{ color: "transparent" }}
+                  src={"/icon-spam.webp"}
+                />
+              </button>
+              <button
+                title="Delete"
+                className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+                onClick={() => onDelete(email.id)}
+              >
+                <img
+                  alt={"Thrash"}
+                  loading="lazy"
+                  width="40"
+                  height="40"
+                  decoding="async"
+                  data-nimg="1"
+                  className="h-5 w-5"
+                  style={{ color: "transparent" }}
+                  src={"/icon-trash.webp"}
+                />
+              </button>
+            </>
+          )}
         </div>
         <div className="mt-6">
           <h2 className="ml-[52px] text-[22px] font-normal">{email.subject}</h2>

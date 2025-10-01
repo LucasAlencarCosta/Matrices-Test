@@ -31,6 +31,7 @@ export const useHomePage = () => {
     onClickEmail,
     onStarEmail,
     selectedEmail,
+    tabSelected: navigation.tabSelected,
     emails: filteredEmails,
   };
 };

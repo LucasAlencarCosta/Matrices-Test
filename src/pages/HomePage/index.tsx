@@ -5,9 +5,11 @@ import { getStarIcon } from "../../utils/emailUtils";
 import { useHomePage } from "./useHomePage";
 import EmailDetailsContent from "../../components/EmailDetailsContent";
 import { EmptyState } from "../../components/EmptyState";
+import { EmailStatus } from "../../store/slices/emails/types";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const { emails, selectedEmail, onStarEmail, onClickEmail } = useHomePage();
+  const { emails, selectedEmail, tabSelected, onStarEmail, onClickEmail } =
+    useHomePage();
 
   if (emails.length === 0) {
     return <EmptyState />;
@@ -29,25 +31,27 @@ const HomePage: React.FC<HomePageProps> = () => {
             key={email.id}
             onClick={() => onClickEmail(email.id)}
           >
-            <button
-              className="rounded p-1 hover:bg-gray-100"
-              onClick={(e) => {
-                e.stopPropagation();
-                onStarEmail(email.id);
-              }}
-            >
-              <img
-                alt="Star"
-                loading="lazy"
-                className="h-5 w-5"
-                width="40"
-                height="40"
-                decoding="async"
-                data-nimg="1"
-                src={getStarIcon(email.status)}
-                style={{ color: "transparent" }}
-              />
-            </button>
+            {tabSelected !== EmailStatus.Trash && (
+              <button
+                className="rounded p-1 hover:bg-gray-100"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStarEmail(email.id);
+                }}
+              >
+                <img
+                  alt="Star"
+                  loading="lazy"
+                  className="h-5 w-5"
+                  width="40"
+                  height="40"
+                  decoding="async"
+                  data-nimg="1"
+                  src={getStarIcon(email.status)}
+                  style={{ color: "transparent" }}
+                />
+              </button>
+            )}
             <div className="w-[200px] shrink-0 truncate">
               <span>
                 {email.destinataries.map((user) => user.name).join(", ")}
