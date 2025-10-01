@@ -1,6 +1,7 @@
 import React from "react";
 import type { HomePageProps } from "./types";
 import { formatEmailDate } from "../../utils/dateUtils";
+import { getStarIcon } from "../../utils/emailUtils";
 import { useHomePage } from "./useHomePage";
 import EmailDetails from "../../components/EmailDetails";
 
@@ -56,11 +57,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                 height="40"
                 decoding="async"
                 data-nimg="1"
-                src={
-                  email.status === "Starred"
-                    ? "/icon-star-filled-yellow.webp"
-                    : "/icon-star.webp"
-                }
+                src={getStarIcon(email.status)}
                 style={{ color: "transparent" }}
               />
             </button>

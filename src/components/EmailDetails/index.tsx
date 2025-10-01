@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import type { EmailDetailsProps } from "./types";
 import { formatDetailedEmailDate } from "../../utils/dateUtils";
+import { getStarIcon } from "../../utils/emailUtils";
 
 const EmailDetails: React.FC<EmailDetailsProps> = ({
   email,
@@ -10,6 +11,12 @@ const EmailDetails: React.FC<EmailDetailsProps> = ({
   onMoveToInbox,
   onStar,
 }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="mr-[56px] mb-4 flex min-w-[500px] grow flex-col rounded-2xl bg-white">
       <div className="px-4 pt-2 pb-0">
@@ -73,7 +80,10 @@ const EmailDetails: React.FC<EmailDetailsProps> = ({
       </div>
       <div className="flex-1 overflow-y-auto">
         <div className="px-4 py-5">
-          <div className="flex items-start gap-3 cursor-pointer">
+          <div
+            className="flex items-start gap-3 cursor-pointer"
+            onClick={() => toggleDropdown()}
+          >
             <div className="h-10 w-10 shrink-0 rounded-full bg-indigo-500 flex items-center justify-center text-sm font-medium text-white">
               {(() => {
                 const nameParts = email.sender.name.split(" ");
@@ -89,19 +99,46 @@ const EmailDetails: React.FC<EmailDetailsProps> = ({
                     <span className="truncate text-sm font-semibold">
                       {email.sender.name}
                     </span>
-                    <span className="truncate text-xs text-gray-500">
-                      &lt;{email.sender.email}&gt;
-                    </span>
+                    {isOpen && (
+                      <span className="truncate text-xs text-gray-500">
+                        &lt;{email.sender.email}&gt;
+                      </span>
+                    )}
                   </div>
-                  <div className="truncate text-xs text-gray-600">
-                    to {email.destinataries.map((d) => d.email).join(", ")}
-                  </div>
+                  {isOpen && (
+                    <div className="truncate text-xs text-gray-600">
+                      to {email.destinataries.map((d) => d.email).join(", ")}
+                    </div>
+                  )}
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className="truncate text-xs whitespace-nowrap text-gray-500">
                     {formatDetailedEmailDate(email.sendDate)}
                   </span>
+                  <button className="-m-1 cursor-pointer rounded p-1 hover:bg-gray-100">
+                    <img
+                      alt="Star"
+                      loading="lazy"
+                      width="40"
+                      height="40"
+                      decoding="async"
+                      data-nimg="1"
+                      className="h-5 w-5"
+                      onClick={() => onStar(email.id)}
+                      src={getStarIcon(email.status)}
+                      style={{ color: "transparent" }}
+                    />
+                  </button>
                 </div>
+              </div>
+              <div
+                className={`${
+                  !isOpen
+                    ? "truncate text-[13px] text-gray-600"
+                    : "mt-1 text-[13px] whitespace-pre-wrap"
+                } `}
+              >
+                {email.body}
               </div>
             </div>
           </div>

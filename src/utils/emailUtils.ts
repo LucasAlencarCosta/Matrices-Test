@@ -16,3 +16,9 @@ export const getEmailsForSection = (
 
   return emails.filter((email) => email.status === selectedTab);
 };
+
+export const getStarIcon = (emailStatus: string): string => {
+  return emailStatus === "Starred"
+    ? "/icon-star-filled-yellow.webp"
+    : "/icon-star.webp";
+};
