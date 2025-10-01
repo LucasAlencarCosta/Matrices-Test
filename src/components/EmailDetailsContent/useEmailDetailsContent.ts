@@ -1,20 +1,22 @@
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { deleteEmail, toggleSpam } from "../../store/slices/emails";
-import { setSelectedEmail } from "../../store/slices/navigation";
+import { toggleDelete, toggleSpam } from "../../store/slices/emails";
+import { resetSelectedEmail } from "../../store/slices/navigation";
 
 export const useEmailDetailsContent = () => {
   const dispatch = useAppDispatch();
   const { navigation } = useAppSelector((state) => state);
 
   const onBack = () => {
-    dispatch(setSelectedEmail(null));
+    dispatch(resetSelectedEmail());
   };
 
   const onDelete = (emailId: string) => {
-    dispatch(deleteEmail(emailId));
+    dispatch(resetSelectedEmail());
+    dispatch(toggleDelete(emailId));
   };
 
   const onMoveToSpam = (emailId: string) => {
+    dispatch(resetSelectedEmail());
     dispatch(toggleSpam(emailId));
   };
 

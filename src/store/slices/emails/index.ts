@@ -37,11 +37,6 @@ const emailsSlice = createSlice({
         email.isUnread = true;
       }
     },
-    deleteEmail: (state, action: PayloadAction<string>) => {
-      state.emails = state.emails.filter(
-        (email) => email.id !== action.payload
-      );
-    },
     toggleStar: (state, action: PayloadAction<string>) => {
       const email = state.emails.find((email) => email.id === action.payload);
       if (email) {
@@ -49,7 +44,7 @@ const emailsSlice = createSlice({
           email.status === "Starred" ? "Inbox" : ("Starred" as EmailStatus);
       }
     },
-    toogleDelete: (state, action: PayloadAction<string>) => {
+    toggleDelete: (state, action: PayloadAction<string>) => {
       const email = state.emails.find((email) => email.id === action.payload);
       if (email) {
         email.status =
@@ -71,9 +66,8 @@ export const {
   updateEmailStatus,
   markAsRead,
   markAsUnread,
-  deleteEmail,
   toggleStar,
-  toogleDelete,
+  toggleDelete,
   toggleSpam,
 } = emailsSlice.actions;
 export default emailsSlice.reducer;

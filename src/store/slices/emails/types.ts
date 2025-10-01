@@ -20,7 +20,7 @@ export interface Email {
   sender: User;
   destinataries: User[];
   body: string;
-  sendDate: Date;
+  sendDate: number;
   status: EmailStatus;
   isUnread: boolean;
 }

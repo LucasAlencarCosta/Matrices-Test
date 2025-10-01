@@ -1,27 +1,29 @@
-export const formatEmailDate = (date: Date): string => {
+export const formatEmailDate = (date: number): string => {
+  const dateObj = new Date(date);
   const today = new Date();
   const isToday =
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear();
+    dateObj.getDate() === today.getDate() &&
+    dateObj.getMonth() === today.getMonth() &&
+    dateObj.getFullYear() === today.getFullYear();
 
   if (isToday) {
-    return date.toLocaleTimeString("en-US", {
+    return dateObj.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
     });
   }
 
-  return date.toLocaleDateString("en-US", {
+  return dateObj.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   });
 };
 
-export const formatDetailedEmailDate = (date: Date): string => {
+export const formatDetailedEmailDate = (date: number): string => {
+  const dateObj = new Date(date);
   const now = new Date();
-  const diffInMs = now.getTime() - date.getTime();
+  const diffInMs = now.getTime() - dateObj.getTime();
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
   const diffInDays = Math.floor(diffInHours / 24);
   const diffInMonths = Math.floor(diffInDays / 30);
@@ -29,7 +31,7 @@ export const formatDetailedEmailDate = (date: Date): string => {
 
   // Less than 48 hours - show day and time with hours ago
   if (diffInHours < 48) {
-    const dayTimeFormat = date.toLocaleDateString("en-US", {
+    const dayTimeFormat = dateObj.toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
       day: "numeric",

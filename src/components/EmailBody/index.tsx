@@ -36,7 +36,7 @@ const EmailBody: React.FC = () => {
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <span className="truncate text-xs whitespace-nowrap text-gray-500">
-              {formatDetailedEmailDate(new Date(email.sendDate))}
+              {formatDetailedEmailDate(email.sendDate)}
             </span>
             <button className="-m-1 cursor-pointer rounded p-1 hover:bg-gray-100">
               <img

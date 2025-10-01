@@ -18,8 +18,12 @@ const navigationSlice = createSlice({
     setSelectedEmail: (state, action: PayloadAction<Email | null>) => {
       state.selectedEmail = action.payload;
     },
+    resetSelectedEmail: (state) => {
+      state.selectedEmail = null;
+    },
   },
 });
 
-export const { setTabSelected, setSelectedEmail } = navigationSlice.actions;
+export const { setTabSelected, setSelectedEmail, resetSelectedEmail } =
+  navigationSlice.actions;
 export default navigationSlice.reducer;
